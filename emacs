@@ -7,18 +7,31 @@
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize)
 
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
+
 ;; Gruvbox theme
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(custom-enabled-themes '(gruvbox-dark-soft))
  '(custom-safe-themes
-   '("2ff9ac386eac4dffd77a33e93b0c8236bb376c5a5df62e36d4bfa821d56e4e20" "72ed8b6bffe0bfa8d097810649fd57d2b598deef47c992920aef8b5d9599eefe" "d80952c58cf1b06d936b1392c38230b74ae1a2a6729594770762dc0779ac66b7" default))
+   '("871b064b53235facde040f6bdfa28d03d9f4b966d8ce28fb1725313731a2bcc8" "2ff9ac386eac4dffd77a33e93b0c8236bb376c5a5df62e36d4bfa821d56e4e20" "72ed8b6bffe0bfa8d097810649fd57d2b598deef47c992920aef8b5d9599eefe" "d80952c58cf1b06d936b1392c38230b74ae1a2a6729594770762dc0779ac66b7" default))
  '(ispell-dictionary nil)
- '(package-selected-packages '(blamer magit smex gruvbox-theme)))
-(custom-set-faces)
+ '(package-selected-packages '(blacken py-autopep8 blamer magit smex gruvbox-theme)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 
 
 ;; Font is always Hack
-(set-frame-font "Hack Nerd Font")
+(set-frame-font "Hack Nerd Font-15")
 
 ;; Whitespace rendering
 (setq-default whitespace-display-mappings
@@ -97,10 +110,29 @@
 (global-set-key (kbd "C-c") 'copy-region-as-kill)
 (global-set-key (kbd "C-v") 'yank)
 
-;; When Emacs starts
 
+;; Python stuff
+;;-------------------------------------------
+(use-package elpy
+  :ensure t
+  :defer t
+  :init
+  (advice-add 'python-mode :before 'elpy-enable)
+  )
+(elpy-enable)
+
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode)
+  )
+
+;; When Emacs starts
+;;-------------------------------------------
 ;; cd into the software
 (cd "~/software")
 
 ;; Split the window please.
 (split-window-right)
+
+(provide '.emacs)
+;;; .emacs ends here
